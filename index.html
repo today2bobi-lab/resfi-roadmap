@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Res-Fi 전체 설계도 v1.3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Pretendard:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0f0f0d;
+  --bg2:       #181816;
+  --bg3:       #222220;
+  --bg4:       #2c2c29;
+  --border:    #333331;
+  --border2:   #444441;
+  --text:      #e8e6de;
+  --text2:     #a8a69e;
+  --text3:     #6e6c64;
+  --accent-ph: #8b83f5;   /* philosophy - violet */
+  --accent-si: #3dbe8a;   /* service identity - emerald */
+  --accent-tc: #5ba4e8;   /* tech core - blue */
+  --accent-pr: #e8a83d;   /* product - amber */
+  --accent-bz: #72b83a;   /* business - green */
+  --accent-nw: #e86040;   /* now - orange-red */
+  --pass:      #2a5c3a;
+  --pass-t:    #6ee89a;
+  --warn:      #5c4a1a;
+  --warn-t:    #f5c842;
+  --info:      #1a3a5c;
+  --info-t:    #7ab8f5;
+  --font-body: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+}
+
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+.hdr-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+.hdr-sub {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  margin-top: 4px;
+}
+.hdr-ver {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  text-align: right;
+  line-height: 1.8;
+}
+
+/* ── Legend ── */
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding: 10px 14px;
+  background: var(--bg2);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+/* ── Flow layout ── */
+.flow { display: flex; flex-direction: column; gap: 0; }
+.conn {
+  display: flex;
+  justify-content: center;
+  height: 28px;
+  align-items: center;
+  position: relative;
+}
+.conn::before {
+  content: '';
+  width: 1px;
+  height: 20px;
+  background: var(--border2);
+  position: absolute;
+}
+.conn::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid var(--border2);
+  position: absolute;
+  bottom: 2px;
+}
+
+/* ── Group container ── */
+.grp {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  position: relative;
+}
+.grp-label {
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--bg2);
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.grp-r3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grp-r2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+/* ── Block card ── */
+.block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background .12s, border-color .15s, transform .1s;
+  position: relative;
+  overflow: hidden;
+}
+.block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px 0 0 3px;
+}
+.block:hover { background: var(--bg4); border-color: var(--border2); }
+.block.active { background: var(--bg4); border-color: var(--accent); }
+.block.single { /* full width single block */ }
+
+.block-ph  { --accent: var(--accent-ph); }
+.block-si  { --accent: var(--accent-si); }
+.block-tc  { --accent: var(--accent-tc); }
+.block-pr  { --accent: var(--accent-pr); }
+.block-bz  { --accent: var(--accent-bz); }
+.block-nw  { --accent: var(--accent-nw); }
+
+.block-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.block-layer {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+.badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+}
+.badge-pass { background: var(--pass); color: var(--pass-t); }
+.badge-warn { background: var(--warn); color: var(--warn-t); }
+.badge-info { background: var(--info); color: var(--info-t); }
+
+.block-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
+}
+.block-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 9px;
+}
+.block-body {
+  font-size: 11.5px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.block-body strong { color: var(--text); font-weight: 600; }
+.block-body em {
+  font-style: normal;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+/* ── Detail panel ── */
+.det-wrap {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1);
+}
+.det-wrap.open { max-height: 2400px; }
+.det-spacer {
+  height: 1px;
+  background: var(--border2);
+  margin: 20px 0 16px;
+}
+.det-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  position: relative;
+}
+.det-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--det-accent, #888);
+}
+.det-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 14px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.det-hdr-left { display: flex; flex-direction: column; gap: 3px; }
+.det-layer {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--det-accent, #888);
+  font-family: var(--font-mono);
+}
+.det-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.02em;
+}
+.det-close {
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-sm);
+  color: var(--text2);
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .1s;
+}
+.det-close:hover { background: var(--bg); color: var(--text); }
+
+.det-body {
+  padding: 20px 20px 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* ── Detail sections ── */
+.dsec { min-width: 0; }
+.dsec.full { grid-column: span 2; }
+.dsec-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* kv rows */
+.dkv { display: flex; gap: 0; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.dkv:last-child { border-bottom: none; }
+.dkk {
+  flex: 0 0 112px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  padding-right: 10px;
+  line-height: 1.5;
+}
+.dkv-v {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* tags */
+.dtags { display: flex; flex-wrap: wrap; gap: 5px; }
+.dtag {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: var(--bg4);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+}
+
+/* stat rows */
+.dstat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  background: var(--bg4);
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.dstat:last-child { margin-bottom: 0; }
+.dstat-k { color: var(--text2); }
+.dstat-v { color: var(--text); font-weight: 600; font-family: var(--font-mono); }
+
+/* timeline */
+.dtl { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; align-items: flex-start; }
+.dtl:last-child { border-bottom: none; }
+.dtl-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--det-accent, #888); flex-shrink: 0; margin-top: 4px; }
+.dtl-yr { flex: 0 0 52px; color: var(--text3); font-weight: 600; font-family: var(--font-mono); font-size: 11px; }
+.dtl-t { color: var(--text); flex: 1; line-height: 1.5; }
+
+/* note */
+.dnote {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--det-accent, #888);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+  font-family: var(--font-mono);
+}
+
+/* bug items */
+.dbug { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; align-items: flex-start; }
+.dbug:last-child { border-bottom: none; }
+.dbug-id { flex: 0 0 70px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.dbug-red { color: #f87171; }
+.dbug-ylw { color: #facc15; }
+.dbug-t { color: var(--text); flex: 1; line-height: 1.5; }
+
+/* footer */
+.footer {
+  margin-top: 32px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Res-Fi 전체 설계도</div>
+      <div class="hdr-sub">Master Roadmap · PM × PL 공동 기준 문서</div>
+    </div>
+    <div class="hdr-ver">
+      v1.3 · 2026.05.27<br>
+      v2.0 · v2.1 · v3.0 · Acquisition Report 반영<br>
+      블럭 클릭 → 상세 / 재클릭 → 닫기
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span style="font-size:11px;font-weight:600;color:#a8a69e;margin-right:4px;">상태</span>
+    <span class="legend-item"><span class="badge badge-pass">확정</span> 구현 완료</span>
+    <span class="legend-item"><span class="badge badge-warn">진행중</span> 구현 진행</span>
+    <span class="legend-item"><span class="badge badge-info">설계완료</span> 설계 확정·미착수</span>
+  </div>
+
+  <!-- Flow -->
+  <div class="flow" id="flow"></div>
+
+  <!-- Detail panel -->
+  <div class="det-wrap" id="det-wrap">
+    <div class="det-spacer"></div>
+    <div class="det-panel" id="det-panel"></div>
+  </div>
+
+  <div class="footer">
+    <span>Res-Fi · 1인 창업 · PM 박대호 × PL Claude</span>
+    <span>부분 업데이트: BLOCKS[id] 객체만 수정 후 rebuild()</span>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   BLOCKS — 부분 업데이트 시 해당 id의 객체만 수정
+   ═══════════════════════════════════════════════════ */
+const BLOCKS = {
+
+  L0: {
+    layer: 'L0 · Philosophy Core',
+    title: '철학 코어',
+    badge: 'pass', badgeText: '확정',
+    color: 'ph',
+    summary: '<strong>과열된 인간이 다시 자기 리듬을 회복하도록 돕는다</strong><br>회귀 = 재정렬·재동기화·회복 · 내 이야기 = 모두의 이야기 = Res-Fi',
+    layout: 'single',
+    secs: [
+      { label: '핵심 명제', type: 'note', full: true,
+        content: '과열된 인간이 다시 자기 리듬을 회복하도록 돕는다.\n내 이야기 = 모두의 이야기 = Res-Fi.' },
+      { label: '회귀 구조', type: 'kv',
+        rows: [['회귀 정의','후퇴가 아닌 재정렬·재동기화·회복'],
+               ['회귀 사이클','과열 → 혼란 → 사색 → 냉각 → 재정렬 → 회복 → 재가동'],
+               ['인간 보편성','현대인의 과열·분산·의미 상실 → 회복 본능']] },
+      { label: '설계 원칙', type: 'tags', full: true,
+        items: ['목적 기반','인지 간섭 최소화','상태 반응형','서사 기반 구조','변수 대비 우선','오류 시인 재시도'] },
+      { label: '포지션', type: 'kv',
+        rows: [['기술 목적 함수','"좋은 음악"이 아닌 "인지 간섭 최소화"'],
+               ['창업 배경','1인 AI 도구 기반 · 음악 배경 없음을 강점 전환'],
+               ['시대 정합','AI·웰니스·감각 과부하 사회 → 회귀 본능 강화 시점']] }
+    ]
+  },
+
+  L1: {
+    layer: 'L1 · Service Identity',
+    title: '서비스 정체성',
+    badge: 'pass', badgeText: '확정',
+    color: 'si',
+    summary: '<strong>나의 목적과 상태를 위해 맞춤제작되는 사운드케어</strong><br>Endel = 환경음향 ↔ Res-Fi = 목적음향 &nbsp;·&nbsp; 2026→2027→2028→2031',
+    layout: 'single',
+    secs: [
+      { label: '브랜드', type: 'kv',
+        rows: [['브랜드명','Res-Fi'],
+               ['카피 KR','나의 목적과 상태를 위해 맞춤제작되는 사운드케어'],
+               ['카피 EN-1','Your soundcare. Starting now.'],
+               ['카피 EN-2','Reads your state. Designs your sound.'],
+               ['핵심 서사','인류가 아직 갖지 못한 데이터를 사용자와 함께 처음으로 만드는 플랫폼']] },
+      { label: '포지셔닝', type: 'kv',
+        rows: [['Endel','환경 음향 (ambient environment)'],
+               ['Res-Fi','목적 음향 (purposeful soundcare)'],
+               ['경쟁 서사','전문 설치 시스템: 수백~수천만원 · 80~90% 효과'],
+               ['Res-Fi 서사','이미 가진 스마트폰 · 월 커피값 · 60~70% 효과']] },
+      { label: '타임라인', type: 'timeline',
+        rows: [['2026','구축기 — 앱 출시 · 데이터 축적 · 초기 사용자'],
+               ['2027','성장기 — 구독 전환 · B2B 진입'],
+               ['2028','공식화 — API · 파트너십 · 데이터 출판'],
+               ['2031','물리 공간 — 스터디카페 · 웰니스 공간 연동']] },
+      { label: '수익 모델', type: 'timeline',
+        rows: [['26.11','유튜브 광고 수익화 시작'],
+               ['27 H1','구독 2,900~4,900원/월'],
+               ['27 H2','B2B 공간 월 5~15만원'],
+               ['2028','API 수익화']] }
+    ]
+  },
+
+  L2: {
+    layer: 'L2 · Generation Pipeline',
+    title: '생성 파이프라인',
+    badge: 'warn', badgeText: '진행중',
+    color: 'tc',
+    summary: '<em>Phase 1 ✅</em> PASS 204 / REVIEW 32 / FAIL 141&nbsp;&nbsp;<em>Phase 2 🔜</em> 스템분리 준비&nbsp;&nbsp;<em>Phase 3 📋</em> ML 루프 미착수',
+    layout: 'group3',
+    secs: [
+      { label: '3단계 파이프라인', type: 'kv', full: true,
+        rows: [['Phase 1 ✅ 완료','Suno WAV 수집 + Validator 1차 게이트'],
+               ['Phase 2 🔜 준비','스템 분리 + 재조합 + pedalboard QC (02_stem_separate.py 미구현)'],
+               ['Phase 3 📋 미착수','ML 학습 루프 (XGBoost 6모델 · PINN 패러다임)']] },
+      { label: 'Phase 1 현황 (2026-05-27)', type: 'stat',
+        rows: [['PASS → RAW','204개'],['REVIEW (경계값)','32개'],['REJECTED (FAIL)','141개'],['총 처리','377개']] },
+      { label: 'Acquisition Engine v3.1', type: 'kv',
+        rows: [['메인 GUI','resfi_launcher.py (Tkinter)'],
+               ['배치 엔진','batch_engine.py · batch_queue.py'],
+               ['조합 엔진','combo_engine.py (70조합)'],
+               ['밸런스','balance_engine.py v3 (가중 라운드로빈)'],
+               ['로그','log_engine.py (18/18 PASS 확인)'],
+               ['데이터 경로','D:\\RESFI_DATA\\']] },
+      { label: '운영 설정', type: 'kv',
+        rows: [['일일 한도','60곡 (CAPTCHA 회피)'],
+               ['API 간격','120~180초 랜덤'],
+               ['장르 전환','30분 대기'],
+               ['크레딧','10크레딧/곡 · 안전 마진 10%']] },
+      { label: '파일명 규칙', type: 'note', full: true,
+        content: 'FOC-{THEME}-{TEMPO}-{GENRE}-{SUB}-{BPM}-{DATE}-{SEQ}.wav\n예: FOC-DF-FAST-Classical-Orthodox-75-85-260527-000001.wav' }
+    ]
+  },
+
+  L3: {
+    layer: 'L3 · Local AI Engine',
+    title: '로컬 AI 엔진',
+    badge: 'warn', badgeText: '진행중',
+    color: 'tc',
+    summary: '<strong>Ollama 기반</strong> · Qwen3-14b / resfi-gemma · RAG v1.2 · 437+ 청크 · log_engine.py 신규',
+    layout: 'group3',
+    secs: [
+      { label: '엔진 구성', type: 'kv',
+        rows: [['기반','Ollama 로컬 추론'],
+               ['Qwen3-14b','세션 설계 · SRS 판단 (thinking mode / 2025.04)'],
+               ['resfi-gemma','Gemma3:4b · JSON 분류 전용 · 4개 필드 반환'],
+               ['ML (Phase 3)','XGBoost 6개 모델 · PINN 패러다임 — 미착수']] },
+      { label: 'RAG 파이프라인 v1.2', type: 'kv',
+        rows: [['청크 크기','800자 · 중복 100자'],
+               ['메타데이터','7개 필드 추출'],
+               ['임베딩','nomic-embed-text'],
+               ['저장소','SQLite — C:\\resfi\\resfi_rag.db'],
+               ['현재 청크','437+ (논문 8편 처리 완료)']] },
+      { label: '학술 논문 (8편)', type: 'tags', full: true,
+        items: ['de Witte 2019','de Witte 2025','Kholista 2024','Huang & Shih 2011','Lesiuk 2005','노이즈 관련 3편'] },
+      { label: '로그 시스템 (신규)', type: 'kv',
+        rows: [['log_engine.py','PASS·FAIL 자동 로그'],
+               ['pass_log.jsonl','검증 통과 트랙 메타 + 측정값'],
+               ['fail_log.jsonl','위반 유형별 집계'],
+               ['경로','D:\\RESFI_DATA\\LOG\\']] }
+    ]
+  },
+
+  L4: {
+    layer: 'L4 · SRP / Validator v2',
+    title: 'SRP & Validator v2',
+    badge: 'warn', badgeText: '진행중',
+    color: 'tc',
+    summary: '<strong>PASS/FAIL 2단계</strong> (HOLD 폐기) · 정량 6기준 · 정성 4금지 · <em>⚠️ Ambient·Lofi DR 판단 대기</em>',
+    layout: 'group3',
+    secs: [
+      { label: 'SRP 파라미터 (8개)', type: 'tags', full: true,
+        items: ['세션유형 (DF·SF·CF·RF)','BPM','리듬밀도','고역','예측가능성','루프안정성','장르','보컬 (INS 고정)'] },
+      { label: 'Validator v2 정량 기준', type: 'stat',
+        rows: [['HF Ratio >6kHz','≤ 1.8%'],['Brightness','≤ 900Hz'],
+               ['Spectral Flux','≤ 0.060'],['Dynamic Range','8 ~ 14dB'],
+               ['Rolloff 85%','≤ 1800Hz'],['Tempo','55 ~ 95BPM']] },
+      { label: '정성 4 금지 (청감)', type: 'tags', full: true,
+        items: ['하이햇·심벌 또렷이 들림','킥·스네어 두드러짐','클라이맥스·급전환·라이저','과도한 멜로디·훅·리듬감 상승'] },
+      { label: '⚠️ 장르별 DR 기준 (마스터 판단 대기)', type: 'kv', full: true,
+        rows: [['Classical','8~14dB ✅ 실측 9~10dB 정상'],
+               ['Piano','8~14dB ✅ 실측 10.4dB 정상'],
+               ['Ambient','⚠️ 실측 평균 18.6dB — A)완화≤17dB / B)pedalboard후처리 / C)현행유지'],
+               ['Lofi','⚠️ 실측 평균 16.4dB — 프롬프트 효과 없음 확인']] },
+      { label: '판정 구조', type: 'note', full: true,
+        content: 'PASS / FAIL 2단계 (v1 HOLD 폐기) · 하나라도 초과 시 FAIL\nML 가중치: Fit×0.35 + Linger×0.25 − RapidSkip×0.20 + Survey×0.20' }
+    ]
+  },
+
+  L5: {
+    layer: 'L5 · Content Ops',
+    title: '콘텐츠 운영',
+    badge: 'warn', badgeText: '진행중',
+    color: 'pr',
+    summary: '<strong>483곡 / 10.64GB</strong> (2026-05-27) · 4장르 × 서브장르 = <strong>70조합</strong> · RF·CF 우선 생성 중',
+    layout: 'group2',
+    secs: [
+      { label: '라이브러리 현황 (2026-05-27)', type: 'stat',
+        rows: [['총계','483곡 / 10.64GB'],
+               ['DF','299곡 (Classical 56 · Lofi 64 · Ambient 2)'],
+               ['SF','74곡 (Classical 26)'],
+               ['CF','62곡 (Classical 26) → 우선'],
+               ['RF','48곡 (Classical 16) → 최우선']] },
+      { label: '포커스 테마 4종', type: 'kv',
+        rows: [['DF — Deep Focus','예측가능·저자극·루프안정 (45.4% → 초과)'],
+               ['SF — Sustainable Focus','중간 에너지·지속 가능 (28.7% → 초과)'],
+               ['CF — Creative Flow','약간의 변화·창의 자극 (14.6% → 우선 생성)'],
+               ['RF — Recovery Focus','저BPM·안정·전환 최소 (11.2% → 최우선 생성)']] },
+      { label: '장르 구조 (70조합)', type: 'kv', full: true,
+        rows: [['Classical 15조합','Orthodox / Semi / Neo × 5 BPM 구간'],
+               ['Ambient 20조합','Dark / Drone / Space / NewAge × 5 BPM 구간'],
+               ['Lofi 20조합','Chill / JazzLofi / RainLofi / Study × 5 BPM 구간'],
+               ['Piano 15조합','Classic / Improv / Modern × 5 BPM 구간']] },
+      { label: 'BPM 범위 (중간값)', type: 'kv',
+        rows: [['FAST 75-85','→ 80 BPM'],['FAST 85-95','→ 90 BPM'],
+               ['MID 60-67','→ 63 BPM'],['MID 68-74','→ 71 BPM'],['SLOW 55-59','→ 57 BPM']] },
+      { label: 'Suno 프롬프트 금지', type: 'tags',
+        items: ['아티스트명 직접 언급','의료·치료 표현','저작권 곡명','클라이맥스·라이저·급전환 묘사'] },
+      { label: '운영 규칙', type: 'kv',
+        rows: [['일일 한도','60곡'],['가사','영어 · 부정 20% 미만 · 긍정 80%+'],['전 트랙','서라운드 스테레오']] }
+    ]
+  },
+
+  L6: {
+    layer: 'L6 · User App v3',
+    title: 'USER 앱 (v3)',
+    badge: 'warn', badgeText: '진행중',
+    color: 'pr',
+    summary: '<strong>React · dark+light</strong> · Home → SessionSelect → Generate → Player · v3.0 기준 반영 중',
+    layout: 'group2',
+    secs: [
+      { label: '기술 스택', type: 'kv',
+        rows: [['프레임워크','React'],['테마','dark + light 혼합'],
+               ['내비게이션','하단 탭 내비게이션'],['미니 플레이어','Plan C: 하단 고정 바']] },
+      { label: '4스크린 구조', type: 'tags',
+        items: ['① Home','② Session Select','③ Generate','④ Player'] },
+      { label: '입력 구조 (v3.0 §2)', type: 'kv',
+        rows: [['세그먼트 (필수)','DF·SF·CF·RF — SRP 매핑 기준'],
+               ['세션 길이 (필수)','18min (무료) / 30min~2h (유료)'],
+               ['장르 (선택)','Classical·Ambient·Lofi·Piano'],
+               ['밝기 힌트 (선택)','FAST·MID·SLOW BPM 구간 매핑']] },
+      { label: 'v3 수정사항 (16개)', type: 'kv',
+        rows: [['추가','장르 · 템포 · 보컬 선택 단계'],
+               ['수정','저장 버튼 토글 방식 변경'],
+               ['제거','Next 버튼 → 탭-어드밴스 방식'],
+               ['상태','진행 중 (v2 전면 폐기 후 재설계)']] },
+      { label: '기준 문서', type: 'note', full: true,
+        content: 'Res-Fi Tech Integrated Design v3.0 §2 (2026-05-27)\nv1 · v2 전부 폐기. v3가 현재 유일한 기준 버전.' }
+    ]
+  },
+
+  L7: {
+    layer: 'L7 · Business',
+    title: '비즈니스 로드맵',
+    badge: 'info', badgeText: '설계완료',
+    color: 'bz',
+    summary: '<strong>모두의창업 1차 대기</strong> (6월 중순) · 시장 525만명 · 에듀테크 11조 · Acuris 협력 기회',
+    layout: 'group2',
+    secs: [
+      { label: '창업 지원 현황', type: 'kv',
+        rows: [['모두의창업','1차 심사 대기 (6월 중순 발표)'],
+               ['라운드 구조','1차 → 2·3·4차 (2개월 단위) → 4차 주요 자금'],
+               ['한양대 예비창업패키지','미선정 — MVP 부재 · 카테고리 전달 난이도'],
+               ['재도전성공패키지','미선정 — 기술 엄밀화 문서 7개 준비 완료']] },
+      { label: '시장 규모', type: 'kv',
+        rows: [['목표 사용자','525만명'],['에듀테크 시장','11조원'],
+               ['스터디카페','6,944개소'],['예산 (신청)','7,000만원 (정부 100%)']] },
+      { label: '파트너십 · Acuris', type: 'kv', full: true,
+        rows: [['기업','한국 유일 공간 소음 마스킹 하드웨어 · 정부조달 혁신제품'],
+               ['협력 포인트','하드웨어는 있으나 오디오 콘텐츠 없음 → Res-Fi SRS EQ 정합'],
+               ['기술 정합','2채널 독립 입력 지원 · 주파수 간섭 우려 해소']] },
+      { label: '수익 타임라인', type: 'timeline',
+        rows: [['26.11','유튜브 광고 수익화'],['27 H1','구독 2,900~4,900원/월'],
+               ['27 H2','B2B 공간 월 5~15만원'],['2028','API 수익화']] }
+    ]
+  },
+
+  NOW: {
+    layer: 'Now · Current Task',
+    title: '현재 과제',
+    badge: 'warn', badgeText: '진행중',
+    color: 'nw',
+    summary: '<em>🔴 BUG-01·02</em> AUTO BALANCE · STOP 버튼 &nbsp;·&nbsp; <em>⚠️ OI-C1·C2</em> Ambient·Lofi DR 판단 &nbsp;·&nbsp; RF·CF 우선 생성',
+    layout: 'group2',
+    secs: [
+      { label: '🔴 미해결 버그 (Claude Code 최우선)', type: 'bugs', full: true,
+        rows: [['BUG-01','red','AUTO BALANCE START 버튼 미작동 — _start_auto_balance() 연결 끊김'],
+               ['BUG-02','red','STOP 버튼 미작동 — _stop_requested 체크 누락 (batch_engine.py)'],
+               ['BUG-03','ylw','AUTO BALANCE에서 MANUAL 선택값 반영 — current_theme 무시 필요'],
+               ['BUG-04','ylw','진행 카운트 미표시 — _on_song_created 콜백 미연결'],
+               ['BUG-05','ylw','재분석 시 START 버튼 사라짐 — destroy 금지, 데이터만 업데이트']] },
+      { label: '⚠️ 마스터 판단 필요 (Open Issues)', type: 'kv',
+        rows: [['OI-C1','Ambient DR — 실측 18.6dB (A)완화≤17dB / B)후처리 / C)유지'],
+               ['OI-C2','Lofi DR — 실측 16.4dB (프롬프트 효과 없음)'],
+               ['OI-C3','REJECTED 141개 재판정 — OI-C1·C2 확정 후 가능'],
+               ['OI-C4','balance_engine v3 launcher 연동 — get_next_task() 미연결']] },
+      { label: '기술 과제 순서', type: 'kv',
+        rows: [['즉시','BUG-01·02 수정 (resfi_launcher.py · batch_engine.py)'],
+               ['즉시','OI-C1·C2 DR 기준 결정'],
+               ['단기','Phase 2 — 02_stem_separate.py 구현'],
+               ['단기','XGBoost 훈련 데이터 확보 착수'],
+               ['중기','앱 v3 개발 완료']] },
+      { label: '생성 현황 요약', type: 'note', full: true,
+        content: '483곡 / 10.64GB (2026-05-27)\nRF 11.2% · CF 14.6% → 목표 각 25% → 우선 생성 필요\nAUTO BALANCE BUG-01·02 해결 후 자동 균형 생성 재개' }
+    ]
+  }
+
+}; // END BLOCKS
+
+/* ═══════════════════════════════════════════════════
+   FLOW ORDER — 순서와 레이아웃 정의
+   ═══════════════════════════════════════════════════ */
+const FLOW_ORDER = [
+  { type: 'single', ids: ['L0'] },
+  { type: 'conn' },
+  { type: 'single', ids: ['L1'] },
+  { type: 'conn' },
+  { type: 'group', label: '기술 코어', cols: 3, ids: ['L2','L3','L4'] },
+  { type: 'conn' },
+  { type: 'group', label: '제품 레이어', cols: 2, ids: ['L5','L6'] },
+  { type: 'conn' },
+  { type: 'group', label: '비즈니스 & 운영', cols: 2, ids: ['L7','NOW'] },
+];
+
+/* ═══════════════════════════════════════════════════
+   RENDER ENGINE
+   ═══════════════════════════════════════════════════ */
+let activeId = null;
+
+function badgeClass(b) {
+  return b === 'pass' ? 'badge-pass' : b === 'warn' ? 'badge-warn' : 'badge-info';
+}
+
+function renderBlock(id) {
+  const b = BLOCKS[id];
+  return `<div class="block block-${b.color}" id="blk-${id}" onclick="toggleDetail('${id}')">
+    <div class="block-hd">
+      <span class="block-layer">${b.layer}</span>
+      <span class="badge ${badgeClass(b.badge)}">${b.badgeText}</span>
+    </div>
+    <div class="block-title">${b.title}</div>
+    <div class="block-divider"></div>
+    <div class="block-body">${b.summary}</div>
+  </div>`;
+}
+
+function renderFlow() {
+  const flow = document.getElementById('flow');
+  flow.innerHTML = FLOW_ORDER.map(item => {
+    if (item.type === 'conn') return `<div class="conn"></div>`;
+    if (item.type === 'single') {
+      return renderBlock(item.ids[0]);
+    }
+    const gridClass = item.cols === 3 ? 'grp-r3' : 'grp-r2';
+    return `<div class="grp">
+      <span class="grp-label">${item.label}</span>
+      <div class="${gridClass}">${item.ids.map(renderBlock).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function buildSec(s, detAccent) {
+  const cls = s.full ? 'dsec full' : 'dsec';
+  let inner = '';
+  if (s.type === 'note') {
+    inner = `<div class="dnote">${s.content.replace(/\n/g,'<br>')}</div>`;
+  } else if (s.type === 'kv') {
+    inner = s.rows.map(([k,v]) => `<div class="dkv"><span class="dkk">${k}</span><span class="dkv-v">${v}</span></div>`).join('');
+  } else if (s.type === 'tags') {
+    inner = `<div class="dtags">${s.items.map(t=>`<span class="dtag">${t}</span>`).join('')}</div>`;
+  } else if (s.type === 'stat') {
+    inner = s.rows.map(([k,v]) => `<div class="dstat"><span class="dstat-k">${k}</span><span class="dstat-v">${v}</span></div>`).join('');
+  } else if (s.type === 'timeline') {
+    inner = s.rows.map(([yr,t]) => `<div class="dtl"><div class="dtl-dot"></div><span class="dtl-yr">${yr}</span><span class="dtl-t">${t}</span></div>`).join('');
+  } else if (s.type === 'bugs') {
+    inner = s.rows.map(([id,sev,t]) => `<div class="dbug"><span class="dbug-id dbug-${sev}">${id}</span><span class="dbug-t">${t}</span></div>`).join('');
+  }
+  return `<div class="${cls}"><div class="dsec-label">${s.label}</div>${inner}</div>`;
+}
+
+function renderDetail(id) {
+  const b = BLOCKS[id];
+  const accentMap = {ph:'#8b83f5',si:'#3dbe8a',tc:'#5ba4e8',pr:'#e8a83d',bz:'#72b83a',nw:'#e86040'};
+  const accent = accentMap[b.color] || '#888';
+  const panel = document.getElementById('det-panel');
+  panel.style.setProperty('--det-accent', accent);
+  panel.innerHTML = `
+    <div class="det-hdr">
+      <div class="det-hdr-left">
+        <span class="det-layer">${b.layer}</span>
+        <span class="det-title">${b.title}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="badge ${badgeClass(b.badge)}">${b.badgeText}</span>
+        <button class="det-close" onclick="closeDetail()">✕</button>
+      </div>
+    </div>
+    <div class="det-body">${b.secs.map(s => buildSec(s, accent)).join('')}</div>
+  `;
+}
+
+function toggleDetail(id) {
+  if (activeId === id) { closeDetail(); return; }
+  if (activeId) document.getElementById('blk-'+activeId)?.classList.remove('active');
+  document.getElementById('blk-'+id)?.classList.add('active');
+  activeId = id;
+  renderDetail(id);
+  document.getElementById('det-wrap').classList.add('open');
+  setTimeout(() => document.getElementById('det-panel').scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+}
+
+function closeDetail() {
+  document.getElementById('det-wrap').classList.remove('open');
+  if (activeId) { document.getElementById('blk-'+activeId)?.classList.remove('active'); activeId = null; }
+}
+
+/* ═══════════════════════════════════════════════════
+   부분 업데이트 API
+   toggleDetail(id) — 상세 패널 열기/닫기
+   rebuildBlock(id) — 특정 블럭 카드만 재렌더
+   rebuild()        — 전체 재렌더
+   ═══════════════════════════════════════════════════ */
+function rebuildBlock(id) {
+  const el = document.getElementById('blk-'+id);
+  if (el) { el.outerHTML = renderBlock(id); }
+  if (activeId === id) renderDetail(id);
+}
+
+function rebuild() { renderFlow(); }
+
+// init
+renderFlow();
+</script>
+</body>
+</html>
