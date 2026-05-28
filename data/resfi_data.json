@@ -1,0 +1,491 @@
+{
+  "meta": {
+    "version": "1.3",
+    "updated": "2026-05-28",
+    "updated_by": "Claude Code"
+  },
+  "blocks": {
+    "L0": {
+      "layer": "L0 · Philosophy Core",
+      "title": "철학 코어",
+      "badge": "pass",
+      "badgeText": "확정",
+      "color": "ph",
+      "summary": "<strong>과열된 인간이 다시 자기 리듬을 회복하도록 돕는다</strong><br>회귀 = 재정렬·재동기화·회복 · 내 이야기 = 모두의 이야기 = Res-Fi",
+      "layout": "single",
+      "secs": [
+        {
+          "label": "핵심 명제",
+          "type": "note",
+          "full": true,
+          "content": "과열된 인간이 다시 자기 리듬을 회복하도록 돕는다.\n내 이야기 = 모두의 이야기 = Res-Fi."
+        },
+        {
+          "label": "회귀 구조",
+          "type": "kv",
+          "rows": [
+            ["회귀 정의", "후퇴가 아닌 재정렬·재동기화·회복"],
+            ["회귀 사이클", "과열 → 혼란 → 사색 → 냉각 → 재정렬 → 회복 → 재가동"],
+            ["인간 보편성", "현대인의 과열·분산·의미 상실 → 회복 본능"]
+          ]
+        },
+        {
+          "label": "설계 원칙",
+          "type": "tags",
+          "full": true,
+          "items": ["목적 기반", "인지 간섭 최소화", "상태 반응형", "서사 기반 구조", "변수 대비 우선", "오류 시인 재시도"]
+        },
+        {
+          "label": "포지션",
+          "type": "kv",
+          "rows": [
+            ["기술 목적 함수", "\"좋은 음악\"이 아닌 \"인지 간섭 최소화\""],
+            ["창업 배경", "1인 AI 도구 기반 · 음악 배경 없음을 강점 전환"],
+            ["시대 정합", "AI·웰니스·감각 과부하 사회 → 회귀 본능 강화 시점"]
+          ]
+        }
+      ]
+    },
+
+    "L1": {
+      "layer": "L1 · Service Identity",
+      "title": "서비스 정체성",
+      "badge": "pass",
+      "badgeText": "확정",
+      "color": "si",
+      "summary": "<strong>나의 목적과 상태를 위해 맞춤제작되는 사운드케어</strong><br>Endel = 환경음향 ↔ Res-Fi = 목적음향 &nbsp;·&nbsp; 2026→2027→2028→2031",
+      "layout": "single",
+      "secs": [
+        {
+          "label": "브랜드",
+          "type": "kv",
+          "rows": [
+            ["브랜드명", "Res-Fi"],
+            ["카피 KR", "나의 목적과 상태를 위해 맞춤제작되는 사운드케어"],
+            ["카피 EN-1", "Your soundcare. Starting now."],
+            ["카피 EN-2", "Reads your state. Designs your sound."],
+            ["핵심 서사", "인류가 아직 갖지 못한 데이터를 사용자와 함께 처음으로 만드는 플랫폼"]
+          ]
+        },
+        {
+          "label": "포지셔닝",
+          "type": "kv",
+          "rows": [
+            ["Endel", "환경 음향 (ambient environment)"],
+            ["Res-Fi", "목적 음향 (purposeful soundcare)"],
+            ["경쟁 서사", "전문 설치 시스템: 수백~수천만원 · 80~90% 효과"],
+            ["Res-Fi 서사", "이미 가진 스마트폰 · 월 커피값 · 60~70% 효과"]
+          ]
+        },
+        {
+          "label": "타임라인",
+          "type": "timeline",
+          "rows": [
+            ["2026", "구축기 — 앱 출시 · 데이터 축적 · 초기 사용자"],
+            ["2027", "성장기 — 구독 전환 · B2B 진입"],
+            ["2028", "공식화 — API · 파트너십 · 데이터 출판"],
+            ["2031", "물리 공간 — 스터디카페 · 웰니스 공간 연동"]
+          ]
+        },
+        {
+          "label": "수익 모델",
+          "type": "timeline",
+          "rows": [
+            ["26.11", "유튜브 광고 수익화 시작"],
+            ["27 H1", "구독 2,900~4,900원/월"],
+            ["27 H2", "B2B 공간 월 5~15만원"],
+            ["2028", "API 수익화"]
+          ]
+        }
+      ]
+    },
+
+    "L2": {
+      "layer": "L2 · Generation Pipeline",
+      "title": "생성 파이프라인",
+      "badge": "warn",
+      "badgeText": "진행중",
+      "color": "tc",
+      "summary": "<em>Phase 1 ✅</em> PASS 204 / REVIEW 32 / FAIL 141&nbsp;&nbsp;<em>Phase 2 🔜</em> 스템분리 준비&nbsp;&nbsp;<em>Phase 3 📋</em> ML 루프 미착수",
+      "layout": "group3",
+      "secs": [
+        {
+          "label": "3단계 파이프라인",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["Phase 1 ✅ 완료", "Suno WAV 수집 + Validator 1차 게이트"],
+            ["Phase 2 🔜 준비", "스템 분리 + 재조합 + pedalboard QC (02_stem_separate.py 미구현)"],
+            ["Phase 3 📋 미착수", "ML 학습 루프 (XGBoost 6모델 · PINN 패러다임)"]
+          ]
+        },
+        {
+          "label": "Phase 1 현황 (2026-05-27)",
+          "type": "stat",
+          "rows": [
+            ["PASS → RAW", "204개"],
+            ["REVIEW (경계값)", "32개"],
+            ["REJECTED (FAIL)", "141개"],
+            ["총 처리", "377개"]
+          ]
+        },
+        {
+          "label": "Acquisition Engine v3.1",
+          "type": "kv",
+          "rows": [
+            ["메인 GUI", "resfi_launcher.py (Tkinter)"],
+            ["배치 엔진", "batch_engine.py · batch_queue.py"],
+            ["조합 엔진", "combo_engine.py (70조합)"],
+            ["밸런스", "balance_engine.py v3 (가중 라운드로빈)"],
+            ["로그", "log_engine.py (18/18 PASS 확인)"],
+            ["데이터 경로", "D:\\RESFI_DATA\\"]
+          ]
+        },
+        {
+          "label": "운영 설정",
+          "type": "kv",
+          "rows": [
+            ["일일 한도", "60곡 (CAPTCHA 회피)"],
+            ["API 간격", "120~180초 랜덤"],
+            ["장르 전환", "30분 대기"],
+            ["크레딧", "10크레딧/곡 · 안전 마진 10%"]
+          ]
+        },
+        {
+          "label": "파일명 규칙",
+          "type": "note",
+          "full": true,
+          "content": "FOC-{THEME}-{TEMPO}-{GENRE}-{SUB}-{BPM}-{DATE}-{SEQ}.wav\n예: FOC-DF-FAST-Classical-Orthodox-75-85-260527-000001.wav"
+        }
+      ]
+    },
+
+    "L3": {
+      "layer": "L3 · Local AI Engine",
+      "title": "로컬 AI 엔진",
+      "badge": "warn",
+      "badgeText": "진행중",
+      "color": "tc",
+      "summary": "<strong>Ollama 기반</strong> · Qwen3-14b / resfi-gemma · RAG v1.2 · 437+ 청크 · log_engine.py 신규",
+      "layout": "group3",
+      "secs": [
+        {
+          "label": "엔진 구성",
+          "type": "kv",
+          "rows": [
+            ["기반", "Ollama 로컬 추론"],
+            ["Qwen3-14b", "세션 설계 · SRS 판단 (thinking mode / 2025.04)"],
+            ["resfi-gemma", "Gemma3:4b · JSON 분류 전용 · 4개 필드 반환"],
+            ["ML (Phase 3)", "XGBoost 6개 모델 · PINN 패러다임 — 미착수"]
+          ]
+        },
+        {
+          "label": "RAG 파이프라인 v1.2",
+          "type": "kv",
+          "rows": [
+            ["청크 크기", "800자 · 중복 100자"],
+            ["메타데이터", "7개 필드 추출"],
+            ["임베딩", "nomic-embed-text"],
+            ["저장소", "SQLite — C:\\resfi\\resfi_rag.db"],
+            ["현재 청크", "437+ (논문 8편 처리 완료)"]
+          ]
+        },
+        {
+          "label": "학술 논문 (8편)",
+          "type": "tags",
+          "full": true,
+          "items": ["de Witte 2019", "de Witte 2025", "Kholista 2024", "Huang & Shih 2011", "Lesiuk 2005", "노이즈 관련 3편"]
+        },
+        {
+          "label": "로그 시스템 (신규)",
+          "type": "kv",
+          "rows": [
+            ["log_engine.py", "PASS·FAIL 자동 로그"],
+            ["pass_log.jsonl", "검증 통과 트랙 메타 + 측정값"],
+            ["fail_log.jsonl", "위반 유형별 집계"],
+            ["경로", "D:\\RESFI_DATA\\LOG\\"]
+          ]
+        }
+      ]
+    },
+
+    "L4": {
+      "layer": "L4 · SRP / Validator v2",
+      "title": "SRP & Validator v2",
+      "badge": "warn",
+      "badgeText": "진행중",
+      "color": "tc",
+      "summary": "<strong>PASS/FAIL 2단계</strong> (HOLD 폐기) · 정량 6기준 · 정성 4금지 · <em>⚠️ Ambient·Lofi DR 판단 대기</em>",
+      "layout": "group3",
+      "secs": [
+        {
+          "label": "SRP 파라미터 (8개)",
+          "type": "tags",
+          "full": true,
+          "items": ["세션유형 (DF·SF·CF·RF)", "BPM", "리듬밀도", "고역", "예측가능성", "루프안정성", "장르", "보컬 (INS 고정)"]
+        },
+        {
+          "label": "Validator v2 정량 기준",
+          "type": "stat",
+          "rows": [
+            ["HF Ratio >6kHz", "≤ 1.8%"],
+            ["Brightness", "≤ 900Hz"],
+            ["Spectral Flux", "≤ 0.060"],
+            ["Dynamic Range", "8 ~ 14dB"],
+            ["Rolloff 85%", "≤ 1800Hz"],
+            ["Tempo", "55 ~ 95BPM"]
+          ]
+        },
+        {
+          "label": "정성 4 금지 (청감)",
+          "type": "tags",
+          "full": true,
+          "items": ["하이햇·심벌 또렷이 들림", "킥·스네어 두드러짐", "클라이맥스·급전환·라이저", "과도한 멜로디·훅·리듬감 상승"]
+        },
+        {
+          "label": "⚠️ 장르별 DR 기준 (마스터 판단 대기)",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["Classical", "8~14dB ✅ 실측 9~10dB 정상"],
+            ["Piano", "8~14dB ✅ 실측 10.4dB 정상"],
+            ["Ambient", "⚠️ 실측 평균 18.6dB — A)완화≤17dB / B)pedalboard후처리 / C)현행유지"],
+            ["Lofi", "⚠️ 실측 평균 16.4dB — 프롬프트 효과 없음 확인"]
+          ]
+        },
+        {
+          "label": "판정 구조",
+          "type": "note",
+          "full": true,
+          "content": "PASS / FAIL 2단계 (v1 HOLD 폐기) · 하나라도 초과 시 FAIL\nML 가중치: Fit×0.35 + Linger×0.25 − RapidSkip×0.20 + Survey×0.20"
+        }
+      ]
+    },
+
+    "L5": {
+      "layer": "L5 · Content Ops",
+      "title": "콘텐츠 운영",
+      "badge": "warn",
+      "badgeText": "진행중",
+      "color": "pr",
+      "summary": "<strong>483곡 / 10.64GB</strong> (2026-05-27) · 4장르 × 서브장르 = <strong>70조합</strong> · RF·CF 우선 생성 중",
+      "layout": "group2",
+      "secs": [
+        {
+          "label": "라이브러리 현황 (2026-05-27)",
+          "type": "stat",
+          "rows": [
+            ["총계", "483곡 / 10.64GB"],
+            ["DF", "299곡 (Classical 56 · Lofi 64 · Ambient 2)"],
+            ["SF", "74곡 (Classical 26)"],
+            ["CF", "62곡 (Classical 26) → 우선"],
+            ["RF", "48곡 (Classical 16) → 최우선"]
+          ]
+        },
+        {
+          "label": "포커스 테마 4종",
+          "type": "kv",
+          "rows": [
+            ["DF — Deep Focus", "예측가능·저자극·루프안정 (45.4% → 초과)"],
+            ["SF — Sustainable Focus", "중간 에너지·지속 가능 (28.7% → 초과)"],
+            ["CF — Creative Flow", "약간의 변화·창의 자극 (14.6% → 우선 생성)"],
+            ["RF — Recovery Focus", "저BPM·안정·전환 최소 (11.2% → 최우선 생성)"]
+          ]
+        },
+        {
+          "label": "장르 구조 (70조합)",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["Classical 15조합", "Orthodox / Semi / Neo × 5 BPM 구간"],
+            ["Ambient 20조합", "Dark / Drone / Space / NewAge × 5 BPM 구간"],
+            ["Lofi 20조합", "Chill / JazzLofi / RainLofi / Study × 5 BPM 구간"],
+            ["Piano 15조합", "Classic / Improv / Modern × 5 BPM 구간"]
+          ]
+        },
+        {
+          "label": "BPM 범위 (중간값)",
+          "type": "kv",
+          "rows": [
+            ["FAST 75-85", "→ 80 BPM"],
+            ["FAST 85-95", "→ 90 BPM"],
+            ["MID 60-67", "→ 63 BPM"],
+            ["MID 68-74", "→ 71 BPM"],
+            ["SLOW 55-59", "→ 57 BPM"]
+          ]
+        },
+        {
+          "label": "Suno 프롬프트 금지",
+          "type": "tags",
+          "items": ["아티스트명 직접 언급", "의료·치료 표현", "저작권 곡명", "클라이맥스·라이저·급전환 묘사"]
+        },
+        {
+          "label": "운영 규칙",
+          "type": "kv",
+          "rows": [
+            ["일일 한도", "60곡"],
+            ["가사", "영어 · 부정 20% 미만 · 긍정 80%+"],
+            ["전 트랙", "서라운드 스테레오"]
+          ]
+        }
+      ]
+    },
+
+    "L6": {
+      "layer": "L6 · User App v3",
+      "title": "USER 앱 (v3)",
+      "badge": "warn",
+      "badgeText": "진행중",
+      "color": "pr",
+      "summary": "<strong>React · dark+light</strong> · Home → SessionSelect → Generate → Player · v3.0 기준 반영 중",
+      "layout": "group2",
+      "secs": [
+        {
+          "label": "기술 스택",
+          "type": "kv",
+          "rows": [
+            ["프레임워크", "React"],
+            ["테마", "dark + light 혼합"],
+            ["내비게이션", "하단 탭 내비게이션"],
+            ["미니 플레이어", "Plan C: 하단 고정 바"]
+          ]
+        },
+        {
+          "label": "4스크린 구조",
+          "type": "tags",
+          "items": ["① Home", "② Session Select", "③ Generate", "④ Player"]
+        },
+        {
+          "label": "입력 구조 (v3.0 §2)",
+          "type": "kv",
+          "rows": [
+            ["세그먼트 (필수)", "DF·SF·CF·RF — SRP 매핑 기준"],
+            ["세션 길이 (필수)", "18min (무료) / 30min~2h (유료)"],
+            ["장르 (선택)", "Classical·Ambient·Lofi·Piano"],
+            ["밝기 힌트 (선택)", "FAST·MID·SLOW BPM 구간 매핑"]
+          ]
+        },
+        {
+          "label": "v3 수정사항 (16개)",
+          "type": "kv",
+          "rows": [
+            ["추가", "장르 · 템포 · 보컬 선택 단계"],
+            ["수정", "저장 버튼 토글 방식 변경"],
+            ["제거", "Next 버튼 → 탭-어드밴스 방식"],
+            ["상태", "진행 중 (v2 전면 폐기 후 재설계)"]
+          ]
+        },
+        {
+          "label": "기준 문서",
+          "type": "note",
+          "full": true,
+          "content": "Res-Fi Tech Integrated Design v3.0 §2 (2026-05-27)\nv1 · v2 전부 폐기. v3가 현재 유일한 기준 버전."
+        }
+      ]
+    },
+
+    "L7": {
+      "layer": "L7 · Business",
+      "title": "비즈니스 로드맵",
+      "badge": "info",
+      "badgeText": "설계완료",
+      "color": "bz",
+      "summary": "<strong>모두의창업 1차 대기</strong> (6월 중순) · 시장 525만명 · 에듀테크 11조 · Acuris 협력 기회",
+      "layout": "group2",
+      "secs": [
+        {
+          "label": "창업 지원 현황",
+          "type": "kv",
+          "rows": [
+            ["모두의창업", "1차 심사 대기 (6월 중순 발표)"],
+            ["라운드 구조", "1차 → 2·3·4차 (2개월 단위) → 4차 주요 자금"],
+            ["한양대 예비창업패키지", "미선정 — MVP 부재 · 카테고리 전달 난이도"],
+            ["재도전성공패키지", "미선정 — 기술 엄밀화 문서 7개 준비 완료"]
+          ]
+        },
+        {
+          "label": "시장 규모",
+          "type": "kv",
+          "rows": [
+            ["목표 사용자", "525만명"],
+            ["에듀테크 시장", "11조원"],
+            ["스터디카페", "6,944개소"],
+            ["예산 (신청)", "7,000만원 (정부 100%)"]
+          ]
+        },
+        {
+          "label": "파트너십 · Acuris",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["기업", "한국 유일 공간 소음 마스킹 하드웨어 · 정부조달 혁신제품"],
+            ["협력 포인트", "하드웨어는 있으나 오디오 콘텐츠 없음 → Res-Fi SRS EQ 정합"],
+            ["기술 정합", "2채널 독립 입력 지원 · 주파수 간섭 우려 해소"]
+          ]
+        },
+        {
+          "label": "수익 타임라인",
+          "type": "timeline",
+          "rows": [
+            ["26.11", "유튜브 광고 수익화"],
+            ["27 H1", "구독 2,900~4,900원/월"],
+            ["27 H2", "B2B 공간 월 5~15만원"],
+            ["2028", "API 수익화"]
+          ]
+        }
+      ]
+    },
+
+    "NOW": {
+      "layer": "Now · Current Task",
+      "title": "현재 과제",
+      "badge": "warn",
+      "badgeText": "진행중",
+      "color": "nw",
+      "summary": "<em>🔴 BUG-01·02</em> AUTO BALANCE · STOP 버튼 &nbsp;·&nbsp; <em>⚠️ OI-C1·C2</em> Ambient·Lofi DR 판단 &nbsp;·&nbsp; RF·CF 우선 생성",
+      "layout": "group2",
+      "secs": [
+        {
+          "label": "🔴 미해결 버그 (Claude Code 최우선)",
+          "type": "bugs",
+          "full": true,
+          "rows": [
+            ["BUG-01", "red", "AUTO BALANCE START 버튼 미작동 — _start_auto_balance() 연결 끊김"],
+            ["BUG-02", "red", "STOP 버튼 미작동 — _stop_requested 체크 누락 (batch_engine.py)"],
+            ["BUG-03", "ylw", "AUTO BALANCE에서 MANUAL 선택값 반영 — current_theme 무시 필요"],
+            ["BUG-04", "ylw", "진행 카운트 미표시 — _on_song_created 콜백 미연결"],
+            ["BUG-05", "ylw", "재분석 시 START 버튼 사라짐 — destroy 금지, 데이터만 업데이트"]
+          ]
+        },
+        {
+          "label": "⚠️ 마스터 판단 필요 (Open Issues)",
+          "type": "kv",
+          "rows": [
+            ["OI-C1", "Ambient DR — 실측 18.6dB (A)완화≤17dB / B)후처리 / C)유지"],
+            ["OI-C2", "Lofi DR — 실측 16.4dB (프롬프트 효과 없음)"],
+            ["OI-C3", "REJECTED 141개 재판정 — OI-C1·C2 확정 후 가능"],
+            ["OI-C4", "balance_engine v3 launcher 연동 — get_next_task() 미연결"]
+          ]
+        },
+        {
+          "label": "기술 과제 순서",
+          "type": "kv",
+          "rows": [
+            ["즉시", "BUG-01·02 수정 (resfi_launcher.py · batch_engine.py)"],
+            ["즉시", "OI-C1·C2 DR 기준 결정"],
+            ["단기", "Phase 2 — 02_stem_separate.py 구현"],
+            ["단기", "XGBoost 훈련 데이터 확보 착수"],
+            ["중기", "앱 v3 개발 완료"]
+          ]
+        },
+        {
+          "label": "생성 현황 요약",
+          "type": "note",
+          "full": true,
+          "content": "483곡 / 10.64GB (2026-05-27)\nRF 11.2% · CF 14.6% → 목표 각 25% → 우선 생성 필요\nAUTO BALANCE BUG-01·02 해결 후 자동 균형 생성 재개"
+        }
+      ]
+    }
+  },
+  "worklog": []
+}
