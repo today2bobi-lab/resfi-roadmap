@@ -397,6 +397,40 @@ html, body {
 .dbug-t { color: var(--text); flex: 1; line-height: 1.5; }
 
 /* footer */
+/* ── App Buttons ── */
+.hdr-apps {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.app-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  transition: border-color .15s, color .15s, background .15s;
+  white-space: nowrap;
+}
+.app-btn:hover { border-color: var(--accent-si); color: var(--accent-si); background: var(--bg4); }
+.app-btn .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-si);
+  flex-shrink: 0;
+}
+.app-btn .dot.blue  { background: var(--accent-tc); }
+.app-btn .dot.amber { background: var(--accent-pr); }
+
 .footer {
   margin-top: 32px;
   padding-top: 14px;
@@ -504,10 +538,23 @@ html, body {
       <div class="hdr-title">Res-Fi 전체 설계도</div>
       <div class="hdr-sub">Master Roadmap · PM × PL 공동 기준 문서</div>
     </div>
-    <div class="hdr-ver">
-      v2.0 · 2026-06-14<br>
-      L3 재정의 · 세션 매칭 방식 확정 · BUG-01/02 완료<br>
-      블럭 클릭 → 상세 / 재클릭 → 닫기
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+      <div class="hdr-ver" style="text-align:right;">
+        v2.0 · 2026-06-14<br>
+        L3 재정의 · 세션 매칭 방식 확정 · BUG-01/02 완료<br>
+        블럭 클릭 → 상세 / 재클릭 → 닫기
+      </div>
+      <div class="hdr-apps">
+        <a class="app-btn" href="http://localhost:8501" target="_blank">
+          <span class="dot"></span> 세션생성앱
+        </a>
+        <a class="app-btn" href="http://localhost:5173" target="_blank">
+          <span class="dot blue"></span> 로컬앱 (React)
+        </a>
+        <a class="app-btn" href="http://localhost:7700/ROADMAP_DASHBOARD.html" target="_blank">
+          <span class="dot amber"></span> 작업일지 대시보드
+        </a>
+      </div>
     </div>
   </div>
 
