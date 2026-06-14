@@ -530,10 +530,10 @@
       "summary": "런처 복구 + LIBRARY 집계 수정 + 세션생성앱 버튼 연결",
       "changes": [
         "venv 경로 복구: .venv\\Scripts\\activate* C:\\resfi → C:\\refi_total\\resfi (시스템 Python 오실행 → 런처 즉시 종료 해소)",
-        "LIBRARY 집계 복구: stats_engine.py BASE_PATH 빈 폴더 → RAW\\suno_pro\\FOC → 총 379곡/9.1GB (DF109/SF129/CF114/RF27)",
+        "LIBRARY 집계 복구 → PASS 전용 확정: stats_engine.py rglob+PASS필터 재작성 → PASS 145곡/3.47GB (DF49/SF43/CF41/RF12)",
         "세션생성앱 버튼: localhost:8501 오연결 → resfi:// 프로토콜 폐기 → localhost:7720 HTTP 트리거 확정",
         "트리거 서버 resfi_trigger.py + 부팅 자동시작 등록 (재시동 후 버튼 즉시 작동)",
-        "미결 LIB-01: LIBRARY 379곡에 pending 포함, PASS만 표시 여부 결정 대기"
+        "방침 확정: LIBRARY=PASS만 (앱 실행 우선), 실패·보류는 별개 보관 → 차후 일괄 학습 예정(LEARN-01)"
       ]
     },
     {
