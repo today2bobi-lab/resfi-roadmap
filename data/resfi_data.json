@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "2.1",
+    "version": "2.2",
     "updated": "2026-06-15",
     "updated_by": "Claude Code (PL) × 마스터(PM)"
   },
@@ -523,6 +523,19 @@
     }
   },
   "worklog": [
+    {
+      "block": "L4",
+      "date": "2026-06-15",
+      "time": "10차",
+      "summary": "웹 우선 무료 테스트 데이터 확보 전략 확정 + 진행 순서 재정리",
+      "changes": [
+        "모바일 앱 이전 웹 무료 테스트로 행동데이터 선확보 → 닭-계란 문제 해소",
+        "벤치마크 64personality: 입력 UX·정체성 후크 차용 / 구독함정·결과잠금 배제 (결과=세션 무료 제공)",
+        "STAGE 0 선결: 0-A 진단산출물(예측/유도/주의/솔루션) · 0-B 데이터·ML 파이프라인 · 0-C 세션 커버리지",
+        "STAGE 1~4: 웹MVP → 운영·수집 → ML고도화 → 앱출시 (게이트 기반)",
+        "문서화: 04_business/Web_First_Data_Strategy_v1.md + ROADMAP.md. 다음: 0-A/0-B 상세 설계"
+      ]
+    },
     {
       "block": "NOW",
       "date": "2026-06-15",
