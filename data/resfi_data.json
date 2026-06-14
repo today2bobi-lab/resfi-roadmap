@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "1.3",
-    "updated": "2026-05-28",
-    "updated_by": "Claude Code"
+    "version": "2.0",
+    "updated": "2026-06-14",
+    "updated_by": "Claude Code (PL) × 마스터(PM)"
   },
   "blocks": {
     "L0": {
@@ -81,8 +81,8 @@
           "label": "타임라인",
           "type": "timeline",
           "rows": [
-            ["2026", "구축기 — 앱 출시 · 데이터 축적 · 초기 사용자"],
-            ["2027", "성장기 — 구독 전환 · B2B 진입"],
+            ["2026", "구축기 — 앱 출시 · PASS 풀 구축 · 초기 사용자"],
+            ["2027", "성장기 — 구독 전환 · B2B 진입 · XGBoost 고도화"],
             ["2028", "공식화 — API · 파트너십 · 데이터 출판"],
             ["2031", "물리 공간 — 스터디카페 · 웰니스 공간 연동"]
           ]
@@ -106,27 +106,29 @@
       "badge": "warn",
       "badgeText": "진행중",
       "color": "tc",
-      "summary": "<em>Phase 1 ✅</em> PASS 204 / REVIEW 32 / FAIL 141&nbsp;&nbsp;<em>Phase 2 🔜</em> 스템분리 준비&nbsp;&nbsp;<em>Phase 3 📋</em> ML 루프 미착수",
+      "summary": "<em>Phase 1 ✅</em> PASS 풀 156곡 적재 중&nbsp;&nbsp;<em>스템 분리 ⏸ 보류</em>&nbsp;&nbsp;<em>매칭 엔진 📋 구현 예정</em>",
       "layout": "group3",
       "secs": [
         {
-          "label": "3단계 파이프라인",
+          "label": "확정 세션 제공 방식 (2026-06-14)",
           "type": "kv",
           "full": true,
           "rows": [
-            ["Phase 1 ✅ 완료", "Suno WAV 수집 + Validator 1차 게이트"],
-            ["Phase 2 🔜 준비", "스템 분리 + 재조합 + pedalboard QC (02_stem_separate.py 미구현)"],
-            ["Phase 3 📋 미착수", "ML 학습 루프 (XGBoost 6모델 · PINN 패러다임)"]
+            ["① 생성", "Suno WAV 자동 수집 (daily 60곡 한도)"],
+            ["② 검수", "Validator v2 — 6기준 정량 PASS/FAIL"],
+            ["③ 적재", "PASS → D:\\RESFI_DATA\\RAW\\suno_pro\\FOC"],
+            ["④ 매칭", "사용자 목적·상태 입력 → PASS 풀 규칙 기반 매칭 → 세션 제공"],
+            ["스템 분리", "⏸ 보류 확정 — 현재 방식으로 전환"]
           ]
         },
         {
-          "label": "Phase 1 현황 (2026-05-27)",
+          "label": "D드라이브 현황 (2026-06-14)",
           "type": "stat",
           "rows": [
-            ["PASS → RAW", "204개"],
-            ["REVIEW (경계값)", "32개"],
-            ["REJECTED (FAIL)", "141개"],
-            ["총 처리", "377개"]
+            ["PASS (RAW\\suno_pro\\FOC)", "156곡"],
+            ["FAIL (REJECTED\\)", "141곡"],
+            ["REVIEW", "32곡"],
+            ["총 처리", "329곡"]
           ]
         },
         {
@@ -137,18 +139,30 @@
             ["배치 엔진", "batch_engine.py · batch_queue.py"],
             ["조합 엔진", "combo_engine.py (70조합)"],
             ["밸런스", "balance_engine.py v3 (가중 라운드로빈)"],
-            ["로그", "log_engine.py (18/18 PASS 확인)"],
+            ["로그", "log_engine.py (pass_log / fail_log / agent_log)"],
             ["데이터 경로", "D:\\RESFI_DATA\\"]
           ]
         },
         {
-          "label": "운영 설정",
+          "label": "수정 완료 (2026-06-14)",
           "type": "kv",
+          "full": true,
           "rows": [
-            ["일일 한도", "60곡 (CAPTCHA 회피)"],
-            ["API 간격", "120~180초 랜덤"],
-            ["장르 전환", "30분 대기"],
-            ["크레딧", "10크레딧/곡 · 안전 마진 10%"]
+            ["BUG-01 ✅", "balance_engine.py — BASE_PATH 복원 + pass_log 폴백 + total_gd==0 순환배분"],
+            ["BUG-02 ✅", "resfi_launcher.py — _stop()에서 task_id / genre_filter 미초기화 보완"],
+            ["INFRA ✅", "validator_engine.py — REJECTED_PATH · REVIEW_PATH D드라이브 실경로 정합"]
+          ]
+        },
+        {
+          "label": "파이프라인 구현 현황",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["01_suno_fetch.py ✅", "Suno 자동 수집 완료"],
+            ["02~04 스템 ⏸", "stem_separate / stem_tag / stem_index — 보류"],
+            ["05_session_build.py 📋", "PASS 풀 → 사용자 목적 매칭 세션 조립 — 미구현"],
+            ["06_validator.py 📋", "미구현"],
+            ["세션 매칭 엔진 📋", "사용자 목적·상태 → PASS 풀 규칙 기반 매칭 — 미구현"]
           ]
         },
         {
@@ -161,50 +175,63 @@
     },
 
     "L3": {
-      "layer": "L3 · Local AI Engine",
-      "title": "로컬 AI 엔진",
-      "badge": "warn",
-      "badgeText": "진행중",
+      "layer": "L3 · AI 고도화 레이어",
+      "title": "데이터 기반 고도화",
+      "badge": "info",
+      "badgeText": "Phase2 예정",
       "color": "tc",
-      "summary": "<strong>Ollama 기반</strong> · Qwen3-14b / resfi-gemma · RAG v1.2 · 437+ 청크 · log_engine.py 신규",
+      "summary": "<strong>Phase 1 미사용</strong> · log_engine.py만 운영 중 · XGBoost 부트스트랩 297건 준비 완료 · Ollama 보류 · resfi-gemma 제거",
       "layout": "group3",
       "secs": [
         {
-          "label": "엔진 구성",
+          "label": "L3 포지셔닝 재정의 (2026-06-14)",
           "type": "kv",
+          "full": true,
           "rows": [
-            ["기반", "Ollama 로컬 추론"],
-            ["Qwen3-14b", "세션 설계 · SRS 판단 (thinking mode / 2025.04)"],
-            ["resfi-gemma", "Gemma3:4b · JSON 분류 전용 · 4개 필드 반환"],
-            ["ML (Phase 3)", "XGBoost 6개 모델 · PINN 패러다임 — 미착수"]
+            ["변경 전", "\"AI 추론 엔진\" — Ollama 로컬 추론 중심"],
+            ["변경 후", "\"데이터 기반 고도화 레이어\" — Phase 2 XGBoost 중심"],
+            ["Phase 1", "규칙 기반만 운영 (AI 추론 없음)"],
+            ["Phase 2", "행동 데이터 누적 후 XGBoost 주기적 재학습"]
           ]
         },
         {
-          "label": "RAG 파이프라인 v1.2",
+          "label": "XGBoost 부트스트랩 전략",
           "type": "kv",
           "rows": [
-            ["청크 크기", "800자 · 중복 100자"],
-            ["메타데이터", "7개 필드 추출"],
-            ["임베딩", "nomic-embed-text"],
-            ["저장소", "SQLite — C:\\resfi\\resfi_rag.db"],
-            ["현재 청크", "437+ (논문 8편 처리 완료)"]
+            ["초기 학습셋", "PASS 156 + FAIL 141 = 297건 (즉시 사용 가능)"],
+            ["입력 피처", "DR / BPM / Flux / Brightness / Rolloff / HF%"],
+            ["초기 레이블", "Validator 규칙 기반 PASS(1)/FAIL(0)"],
+            ["정교화", "사용자 행동 신호 누적 → 가중치 0.0~1.0 전환"],
+            ["재학습 주기", "누적 데이터 임계치 도달 시 자동"]
           ]
         },
         {
-          "label": "학술 논문 (8편)",
+          "label": "런타임 3계층 (Phase 2 목표)",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["Layer 1 매칭", "사용자 목적 → SRP 파라미터 변환 (RAG 논문 근거)"],
+            ["Layer 2 검증", "Validator 기준값 정교화 (논문 ↔ 실데이터 교차)"],
+            ["Layer 3 학습", "행동 로그 → XGBoost 재학습 → SRP 가중치 갱신"]
+          ]
+        },
+        {
+          "label": "구성요소 상태",
+          "type": "kv",
+          "full": true,
+          "rows": [
+            ["log_engine.py ✅", "운영 중 — L2 파이프라인에 포함 (PASS/FAIL/agent 로그)"],
+            ["RAG v1.2 ✅", "설계 참조 완료 (437청크 8편) → Phase 2 레이블 이론 근거로 보존"],
+            ["Ollama / Qwen3-14b ⏸", "보류 — 매칭 UI 방식 확정 후 재검토"],
+            ["resfi-gemma ❌", "제거 — validator_engine.py + genre_config.py 완전 대체"],
+            ["XGBoost 📋", "미착수 — Phase 2 핵심 고도화 엔진"]
+          ]
+        },
+        {
+          "label": "학술 논문 (8편) — 레이블 이론 근거",
           "type": "tags",
           "full": true,
           "items": ["de Witte 2019", "de Witte 2025", "Kholista 2024", "Huang & Shih 2011", "Lesiuk 2005", "노이즈 관련 3편"]
-        },
-        {
-          "label": "로그 시스템 (신규)",
-          "type": "kv",
-          "rows": [
-            ["log_engine.py", "PASS·FAIL 자동 로그"],
-            ["pass_log.jsonl", "검증 통과 트랙 메타 + 측정값"],
-            ["fail_log.jsonl", "위반 유형별 집계"],
-            ["경로", "D:\\RESFI_DATA\\LOG\\"]
-          ]
         }
       ]
     },
@@ -215,7 +242,7 @@
       "badge": "warn",
       "badgeText": "진행중",
       "color": "tc",
-      "summary": "<strong>PASS/FAIL 2단계</strong> (HOLD 폐기) · 정량 6기준 · 정성 4금지 · <em>⚠️ Ambient·Lofi DR 판단 대기</em>",
+      "summary": "<strong>PASS/FAIL 2단계</strong> (HOLD 폐기) · 정량 6기준 · 정성 4금지 · <em>⚠️ OI-C1/C2 DR 분석 대기</em>",
       "layout": "group3",
       "secs": [
         {
@@ -225,7 +252,7 @@
           "items": ["세션유형 (DF·SF·CF·RF)", "BPM", "리듬밀도", "고역", "예측가능성", "루프안정성", "장르", "보컬 (INS 고정)"]
         },
         {
-          "label": "Validator v2 정량 기준",
+          "label": "Validator v2 정량 기준 (확정)",
           "type": "stat",
           "rows": [
             ["HF Ratio >6kHz", "≤ 1.8%"],
@@ -243,21 +270,21 @@
           "items": ["하이햇·심벌 또렷이 들림", "킥·스네어 두드러짐", "클라이맥스·급전환·라이저", "과도한 멜로디·훅·리듬감 상승"]
         },
         {
-          "label": "⚠️ 장르별 DR 기준 (마스터 판단 대기)",
+          "label": "⚠️ 장르별 DR 이상값 (OI — 분석 대기)",
           "type": "kv",
           "full": true,
           "rows": [
-            ["Classical", "8~14dB ✅ 실측 9~10dB 정상"],
-            ["Piano", "8~14dB ✅ 실측 10.4dB 정상"],
-            ["Ambient", "⚠️ 실측 평균 18.6dB — A)완화≤17dB / B)pedalboard후처리 / C)현행유지"],
-            ["Lofi", "⚠️ 실측 평균 16.4dB — 프롬프트 효과 없음 확인"]
+            ["Classical ✅", "8~14dB 정상 (실측 9~10dB)"],
+            ["Piano ✅", "8~14dB 정상 (실측 10.4dB)"],
+            ["Ambient ⚠️", "실측 평균 18.6dB — fail_log.jsonl 141건 패턴 분석 선결"],
+            ["Lofi ⚠️", "실측 평균 16.4dB — 동상 선결 조건"]
           ]
         },
         {
           "label": "판정 구조",
           "type": "note",
           "full": true,
-          "content": "PASS / FAIL 2단계 (v1 HOLD 폐기) · 하나라도 초과 시 FAIL\nML 가중치: Fit×0.35 + Linger×0.25 − RapidSkip×0.20 + Survey×0.20"
+          "content": "PASS / FAIL 2단계 (v1 HOLD 폐기) · 하나라도 초과 시 FAIL\n경로: validator_engine.py → PASS: RAW\\suno_pro\\FOC / FAIL: D:\\RESFI_DATA\\REJECTED / REVIEW: D:\\RESFI_DATA\\REVIEW"
         }
       ]
     },
@@ -268,28 +295,28 @@
       "badge": "warn",
       "badgeText": "진행중",
       "color": "pr",
-      "summary": "<strong>483곡 / 10.64GB</strong> (2026-05-27) · 4장르 × 서브장르 = <strong>70조합</strong> · RF·CF 우선 생성 중",
+      "summary": "<strong>PASS 156곡</strong> (2026-06-14) · 4테마 × 4장르 = <strong>70조합</strong> · AUTO BALANCE v3 운영 중",
       "layout": "group2",
       "secs": [
         {
-          "label": "라이브러리 현황 (2026-05-27)",
+          "label": "PASS 풀 현황 (2026-06-14)",
           "type": "stat",
           "rows": [
-            ["총계", "483곡 / 10.64GB"],
-            ["DF", "299곡 (Classical 56 · Lofi 64 · Ambient 2)"],
-            ["SF", "74곡 (Classical 26)"],
-            ["CF", "62곡 (Classical 26) → 우선"],
-            ["RF", "48곡 (Classical 16) → 최우선"]
+            ["PASS 총계", "156곡 (D:\\RESFI_DATA\\RAW\\suno_pro\\FOC)"],
+            ["DF (Deep Focus)", "49곡"],
+            ["CF (Creative Flow)", "45곡"],
+            ["SF (Sustainable Focus)", "47곡"],
+            ["RF (Recovery Focus)", "14곡 → 우선 생성 필요"]
           ]
         },
         {
-          "label": "포커스 테마 4종",
+          "label": "포커스 테마 4종 (목표 각 25%)",
           "type": "kv",
           "rows": [
-            ["DF — Deep Focus", "예측가능·저자극·루프안정 (45.4% → 초과)"],
-            ["SF — Sustainable Focus", "중간 에너지·지속 가능 (28.7% → 초과)"],
-            ["CF — Creative Flow", "약간의 변화·창의 자극 (14.6% → 우선 생성)"],
-            ["RF — Recovery Focus", "저BPM·안정·전환 최소 (11.2% → 최우선 생성)"]
+            ["DF — Deep Focus", "예측가능·저자극·루프안정"],
+            ["SF — Sustainable Focus", "중간 에너지·지속 가능"],
+            ["CF — Creative Flow", "약간의 변화·창의 자극"],
+            ["RF — Recovery Focus", "저BPM·안정·전환 최소 (현재 부족 → 최우선)"]
           ]
         },
         {
@@ -323,7 +350,7 @@
           "label": "운영 규칙",
           "type": "kv",
           "rows": [
-            ["일일 한도", "60곡"],
+            ["일일 한도", "60곡 (CAPTCHA 회피)"],
             ["가사", "영어 · 부정 20% 미만 · 긍정 80%+"],
             ["전 트랙", "서라운드 스테레오"]
           ]
@@ -337,7 +364,7 @@
       "badge": "warn",
       "badgeText": "진행중",
       "color": "pr",
-      "summary": "<strong>React · dark+light</strong> · Home → SessionSelect → Generate → Player · v3.0 기준 반영 중",
+      "summary": "<strong>React · dark+light</strong> · Home → SessionSelect → Generate → Player · PASS 풀 매칭 방식 반영 예정",
       "layout": "group2",
       "secs": [
         {
@@ -366,13 +393,14 @@
           ]
         },
         {
-          "label": "v3 수정사항 (16개)",
+          "label": "세션 매칭 방식 (확정)",
           "type": "kv",
+          "full": true,
           "rows": [
-            ["추가", "장르 · 템포 · 보컬 선택 단계"],
-            ["수정", "저장 버튼 토글 방식 변경"],
-            ["제거", "Next 버튼 → 탭-어드밴스 방식"],
-            ["상태", "진행 중 (v2 전면 폐기 후 재설계)"]
+            ["입력", "사용자 목적·상태 선택 (구조화 UI — 자유 텍스트 X)"],
+            ["매칭", "SRP 파라미터 → PASS 풀 규칙 기반 쿼리"],
+            ["캐시 히트", "즉시 추천"],
+            ["캐시 미스", "생성 파이프라인 실행 → 검수 → 추천"]
           ]
         },
         {
@@ -390,14 +418,14 @@
       "badge": "info",
       "badgeText": "설계완료",
       "color": "bz",
-      "summary": "<strong>모두의창업 1차 대기</strong> (6월 중순) · 시장 525만명 · 에듀테크 11조 · Acuris 협력 기회",
+      "summary": "<strong>모두의창업 심사 중</strong> · 시장 525만명 · 에듀테크 11조 · Acuris 협력 기회",
       "layout": "group2",
       "secs": [
         {
           "label": "창업 지원 현황",
           "type": "kv",
           "rows": [
-            ["모두의창업", "1차 심사 대기 (6월 중순 발표)"],
+            ["모두의창업", "심사 중 (결과 대기)"],
             ["라운드 구조", "1차 → 2·3·4차 (2개월 단위) → 4차 주요 자금"],
             ["한양대 예비창업패키지", "미선정 — MVP 부재 · 카테고리 전달 난이도"],
             ["재도전성공패키지", "미선정 — 기술 엄밀화 문서 7개 준비 완료"]
@@ -442,50 +470,131 @@
       "badge": "warn",
       "badgeText": "진행중",
       "color": "nw",
-      "summary": "<em>🔴 BUG-01·02</em> AUTO BALANCE · STOP 버튼 &nbsp;·&nbsp; <em>⚠️ OI-C1·C2</em> Ambient·Lofi DR 판단 &nbsp;·&nbsp; RF·CF 우선 생성",
+      "summary": "<em>✅ BUG-01·02·INFRA 해결</em> &nbsp;·&nbsp; <em>⚠️ OI-C1·C2</em> DR 분석 대기 &nbsp;·&nbsp; <em>📋 세션 매칭 엔진</em> 구현 예정",
       "layout": "group2",
       "secs": [
         {
-          "label": "🔴 미해결 버그 (Claude Code 최우선)",
-          "type": "bugs",
+          "label": "✅ 해결 완료 (2026-06-14)",
+          "type": "kv",
           "full": true,
           "rows": [
-            ["BUG-01", "red", "AUTO BALANCE START 버튼 미작동 — _start_auto_balance() 연결 끊김"],
-            ["BUG-02", "red", "STOP 버튼 미작동 — _stop_requested 체크 누락 (batch_engine.py)"],
-            ["BUG-03", "ylw", "AUTO BALANCE에서 MANUAL 선택값 반영 — current_theme 무시 필요"],
-            ["BUG-04", "ylw", "진행 카운트 미표시 — _on_song_created 콜백 미연결"],
-            ["BUG-05", "ylw", "재분석 시 START 버튼 사라짐 — destroy 금지, 데이터만 업데이트"]
+            ["BUG-01 ✅", "AUTO BALANCE 몰빵 — BASE_PATH 복원 + pass_log 폴백 + total_gd==0 순환배분"],
+            ["BUG-02 ✅", "STOP 동작 이상 — _stop()에서 task_id / genre_filter 미초기화 보완"],
+            ["INFRA ✅", "Validator 실패 경로 — REJECTED_PATH / REVIEW_PATH D드라이브 실경로 정합"],
+            ["ARCH ✅", "해마형 메모리 구조 구축 — FACTS.md 자동주입 훅 (Claude Code)"],
+            ["ARCH ✅", "L3 재정의 — AI 추론 → 데이터 기반 고도화 (Phase 2) / resfi-gemma 제거"]
           ]
         },
         {
-          "label": "⚠️ 마스터 판단 필요 (Open Issues)",
+          "label": "⚠️ 미결 — 선결 조건 있음",
           "type": "kv",
           "rows": [
-            ["OI-C1", "Ambient DR — 실측 18.6dB (A)완화≤17dB / B)후처리 / C)유지"],
-            ["OI-C2", "Lofi DR — 실측 16.4dB (프롬프트 효과 없음)"],
-            ["OI-C3", "REJECTED 141개 재판정 — OI-C1·C2 확정 후 가능"],
-            ["OI-C4", "balance_engine v3 launcher 연동 — get_next_task() 미연결"]
+            ["OI-C1", "Ambient DR 18.6dB — fail_log.jsonl 141건 패턴 분석 후 처방"],
+            ["OI-C2", "Lofi DR 16.4dB — 동상 선결"],
+            ["이원화", "RAW↔session_registry 이원화 정책 확정 (기존 156개 이전 여부)"]
           ]
         },
         {
-          "label": "기술 과제 순서",
+          "label": "📋 다음 구현 과제",
           "type": "kv",
           "rows": [
-            ["즉시", "BUG-01·02 수정 (resfi_launcher.py · batch_engine.py)"],
-            ["즉시", "OI-C1·C2 DR 기준 결정"],
-            ["단기", "Phase 2 — 02_stem_separate.py 구현"],
-            ["단기", "XGBoost 훈련 데이터 확보 착수"],
-            ["중기", "앱 v3 개발 완료"]
+            ["즉시", "세션 매칭 엔진 — 사용자 목적 입력 → PASS 풀 규칙 매칭"],
+            ["즉시", "05_session_build.py — 매칭 세션 조립"],
+            ["단기", "06_validator.py 구현"],
+            ["단기", "OI-C1·C2 fail_log 분석 → genre_config.py 처방"],
+            ["중기", "앱 v3 개발 완료"],
+            ["Phase 2", "XGBoost 부트스트랩 (297건 초기 학습셋 준비 완료)"]
           ]
         },
         {
-          "label": "생성 현황 요약",
-          "type": "note",
-          "full": true,
-          "content": "483곡 / 10.64GB (2026-05-27)\nRF 11.2% · CF 14.6% → 목표 각 25% → 우선 생성 필요\nAUTO BALANCE BUG-01·02 해결 후 자동 균형 생성 재개"
+          "label": "Phase 진척도 (2026-06-14)",
+          "type": "stat",
+          "rows": [
+            ["Phase 1 전체", "약 55%"],
+            ["설계·기준", "4/4 완료"],
+            ["수집·로그", "4/4 완료"],
+            ["인프라·메모리", "3/3 완료"],
+            ["버그 수정", "3/3 완료"],
+            ["파이프라인 구현", "1/5 (01만 완료)"],
+            ["DR 처방 (OI)", "0/2 대기"]
+          ]
         }
       ]
     }
   },
-  "worklog": []
+  "worklog": [
+    {
+      "block": "L3",
+      "date": "2026-06-14",
+      "time": "8차",
+      "summary": "L3 로컬 AI 엔진 재분석 + 전체 아키텍처 확정",
+      "changes": [
+        "세션 제공 방식 확정: Suno 생성 → Validator → PASS 풀 → 목적 매칭",
+        "스템 분리·재조합 보류 확정",
+        "resfi-gemma 제거 결정 (validator_engine.py 완전 대체)",
+        "Ollama/Qwen3-14b 보류 (UI 방식 확정 후 재검토)",
+        "XGBoost 부트스트랩 전략 확정 (297건 초기 학습셋)",
+        "RAG v1.2 → Phase 2 XGBoost 레이블 이론 근거로 역할 전환"
+      ]
+    },
+    {
+      "block": "L2",
+      "date": "2026-06-14",
+      "time": "7차",
+      "summary": "전체 로드맵 신규 기능 반영 + 대시보드 갱신",
+      "changes": [
+        "ROADMAP.md v2 인프라·메모리 항목 추가",
+        "ROADMAP_DASHBOARD.html 작업일지·로드맵 탭 갱신",
+        "launch_maker_app / launch_web_app / launch_roadmap 배치파일 생성",
+        "바탕화면 Res-Fi 로드맵.bat 배치"
+      ]
+    },
+    {
+      "block": "NOW",
+      "date": "2026-06-14",
+      "time": "6차",
+      "summary": "해마 자동주입 구조 구축",
+      "changes": [
+        "FACTS.md 생성 — 경로상수·버그상태·기준값·우선순위 압축",
+        ".claude/hooks/resfi_inject.ps1 생성 — 18종 키워드 감지",
+        ".claude/settings.local.json UserPromptSubmit 훅 등록",
+        "ROADMAP_DASHBOARD.html 4탭 대시보드 생성"
+      ]
+    },
+    {
+      "block": "L2",
+      "date": "2026-06-14",
+      "time": "4~5차",
+      "summary": "D드라이브 경로 정합 + BASE_PATH 복원",
+      "changes": [
+        "validator_engine.py REJECTED_PATH → D:\\RESFI_DATA\\REJECTED",
+        "validator_engine.py REVIEW_PATH → D:\\RESFI_DATA\\REVIEW",
+        "balance_engine.py BASE_PATH → RAW\\suno_pro\\FOC 복원 (기존 설계 유지)",
+        "INDEX.md v2 전면 갱신 — D드라이브 데이터 맵 신설"
+      ]
+    },
+    {
+      "block": "NOW",
+      "date": "2026-06-14",
+      "time": "3차",
+      "summary": "BUG-01 / BUG-02 / INFRA 수정 완료",
+      "changes": [
+        "BUG-01: balance_engine.py pass_log 폴백 추가, total_gd==0 순환배분 수정",
+        "BUG-02: resfi_launcher.py _stop()에서 task_id / genre_filter 초기화 추가",
+        "INFRA: validator_engine.py move_files() 로컬 변수 → 모듈 상수 통일"
+      ]
+    },
+    {
+      "block": "L0",
+      "date": "2026-06-14",
+      "time": "1~2차",
+      "summary": "해마형 메모리 구조 초기 구축",
+      "changes": [
+        "분류 폴더 신설: 01_philosophy / 02_design / 03_implementation / 04_business / 05_external_quarantine",
+        "핵심 문서 11종 분류 복사 (원본 resfi/ 유지)",
+        "INDEX.md v1 / CHANGELOG.md / ROADMAP.md / MASTER_CONTEXT.md 생성",
+        "보류 파일 5종 분류 완료 (_archive / quarantine)"
+      ]
+    }
+  ]
 }
